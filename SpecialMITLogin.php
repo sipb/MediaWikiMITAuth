@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * The special page which acts as a front-end to the authentication process.
+ * It also handles certain logical processes like account creation.
+ */
 class SpecialMITLogin extends SpecialPage {
 	public function __construct() {
 		parent::__construct( 'MITLogin' );

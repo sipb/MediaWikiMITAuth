@@ -36,7 +36,9 @@ $wgExtensionCredits['other'][] = array(
  */
 $mitauthBase = __DIR__;
 $wgAutoloadClasses['MITAuth'] = "$mitauthBase/MITAuth.class.php";
-$wgAutoloadClasses['MITAuthHooks'] = "$mitauthBase/MITAuth.class.php";
+$wgAutoloadClasses['MITAuthBackend'] = "$mitauthBase/MITAuth.class.php";
+$wgAutoloadClasses['MITAuthHooks'] = "$mitauthBase/MITAuth.hooks.php";
+$wgAutoloadClasses['MITAuthCertificates'] = "$mitauthBase/backends/Certificates.php";
 $wgAutoloadClasses['SpecialMITLogin'] = "$mitauthBase/SpecialMITLogin.php";
 
 $wgExtensionMessagesFiles['MITAuth'] = "$mitauthBase/MITAuth.i18n.php";
