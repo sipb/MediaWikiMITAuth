@@ -44,6 +44,7 @@ $wgAutoloadClasses['SpecialMITLogin'] = "$mitauthBase/SpecialMITLogin.php";
 $wgExtensionMessagesFiles['MITAuth'] = "$mitauthBase/MITAuth.i18n.php";
 
 $wgHooks['GetPreferences'][] = 'MITAuthHooks::addPreferencesInfo';
+$wgHooks['LoadExtensionSchemaUpdates'][] = 'MITAuthHooks::registerSchemaUpdates';
 
 $wgSpecialPages['MITLogin'] = 'SpecialMITLogin';
 

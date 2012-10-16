@@ -29,4 +29,9 @@ class MITAuthHooks {
 
 		return true;
 	}
+
+	public static function registerSchemaUpdates( $updater = null ) {
+		$updater->addExtensionTable( 'mit_account_links', dirname( __FILE__ ) . '/mitauth.sql' );
+		return true;
+	}
 }
