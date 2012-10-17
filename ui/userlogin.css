@@ -1,0 +1,35 @@
+/* Imitate another div on the userlogin form */
+
+#mit-certlogin {
+	border: 1px solid #ccc;
+	padding: 1.2em;
+	margin: 0.5em;
+}
+
+#mit-certlogin a {
+	color: black;
+	text-decoration: none;
+}
+
+#mit-certlogin-wrapper {
+	text-align: center;
+}
+
+#mit-certlogin-button {
+	padding: 1.3em 1.3em 1.3em 5em;
+	font-size: 14pt;
+	background-color: #e0ffe0;
+	border-radius: 25px;
+	background-image: url(certificate.png);
+	background-repeat: no-repeat;
+	background-position: 1em;
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
+	text-align: left;
+}
+
+#mit-certlogin-smallremark {
+	font-size: 10pt;
+	padding-top: 0.4em;
+}

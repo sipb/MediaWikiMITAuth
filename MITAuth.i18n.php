@@ -32,6 +32,9 @@ $messages['en'] = array(
 	//'mitauth-page-login-signup-' => '',
 	//'mitauth-page-login-' => '',
 
+	'mitauth-userlogin-header' => 'Log in with MIT identity',
+	'mitauth-userlogin-otherheader' => 'Log in without MIT identity',
+
 	'mitauth-prefs-status' => 'Link to MIT account:',
 	'mitauth-prefs-notlinked' => "'''Not linked''' ([[Special:MITLogin/link|link]])",
 

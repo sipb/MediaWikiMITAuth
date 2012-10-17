@@ -45,8 +45,15 @@ $wgExtensionMessagesFiles['MITAuth'] = "$mitauthBase/MITAuth.i18n.php";
 
 $wgHooks['GetPreferences'][] = 'MITAuthHooks::addPreferencesInfo';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'MITAuthHooks::registerSchemaUpdates';
+$wgHooks['UserLoginForm'][] = 'MITAuthHooks::changeLoginForm';
 
 $wgSpecialPages['MITLogin'] = 'SpecialMITLogin';
+
+$wgResourceModules['ext.mitauth.userlogin'] = array(
+	'localBasePath' => __DIR__ . '/ui',
+	'remoteExtPath' => 'MITAuth/ui',
+	'styles' => 'userlogin.css',
+);
 
 //==============================================================================
 
@@ -54,10 +61,12 @@ $wgSpecialPages['MITLogin'] = 'SpecialMITLogin';
  * Authentication modes:
  * * combined — allows both people with MIT ID and without it to sign on and login
  * * mitonly — allows only MIT people to sign on, but they get to choose their own usename
+ * * integrated (not implemented) — allows only MIT people to sign on
+ *     and automatically makes their account names equal to their real names
  */
-$wgMITAuthenticationMode = 'combined';
+$wgMITAuthenticationMode = 'mitonly';
 
-$wgMITAuthenticationMode = 'certificate';
+$wgMITAuthenticationMethod = 'certificate';
 
 $wgMITCertificateServer = false;
 $wgMITNormalServer = false;
