@@ -130,6 +130,8 @@ class SpecialMITLogin extends SpecialPage {
 
 				$update = new SiteStatsUpdate( 0, 0, 0, 0, 1 );
 				$update->doUpdate();
+
+				$wgUser = $user;
 				$user->addNewUserLogEntry();
 
 				MITAuth::redirectToAuthenticator( 'login' );
