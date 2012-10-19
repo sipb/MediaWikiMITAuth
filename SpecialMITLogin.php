@@ -89,7 +89,7 @@ class SpecialMITLogin extends SpecialPage {
 						$user->setCookies();
 						$wgOut->redirect( SpecialPage::getTitleFor( 'MITLogin', 'success' )->getLocalURL() );
 					} else {
-						$this->showSignupForm( $data );
+						$this->showSignupForm( $data, false, true );
 					}
 					
 				} else {
@@ -145,11 +145,14 @@ class SpecialMITLogin extends SpecialPage {
 		}
 	}
 
-	function showSignupForm( $data, $error = '' ) {
-		global $wgOut, $wgRequest;
+	function showSignupForm( $data, $error = '', $initial = false ) {
+		global $wgOut, $wgRequest, $wgContLang;
 
 		$title = SpecialPage::getTitleFor( 'MITLogin', 'signup' );
-		$username = $wgRequest->getVal( 'username' );
+		if( $initial )
+			$username = $wgContLang->ucfirst( $data->username );
+		else
+			$username = $wgRequest->getVal( 'username' );
 		$newmark = MITAuth::generateAuthenticationMark( $data, true );
 		$legend = wfMsgHtml( 'mitauth-page-login-signup-legend' );
 		$header = wfMsgHtml( 'mitauth-page-login-signup-header' );
