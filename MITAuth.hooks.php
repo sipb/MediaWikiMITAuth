@@ -50,6 +50,38 @@ class MITAuthHooks {
 				return true;
 		}
 	}
+
+	public static function setupAuthPlugin( &$auth ) {
+		global $wgMITAuthenticationMode;
+
+		if( $wgMITAuthenticationMode == 'integrated' || $wgMITAuthenticationMode == 'mitonly' ) {
+			$auth = new MITAuthDisablingPlugin();
+		}
+		return true;
+	}
+
+	public static function abortNewAccount( $user, &$message ) {
+		global $wgMITAuthenticationMode;
+
+		if( $wgMITAuthenticationMode == 'integrated' || $wgMITAuthenticationMode == 'mitonly' ) {
+			$message = "No, this will not work. This website is on restricted authentication mode";
+			return false;
+		}
+		return true;
+	}
+}
+
+/**
+ * Plugin to block authentication from non-MITLogin soucres.
+ */
+class MITAuthDisablingPlugin extends AuthPlugin {
+	public function authenticate( $username, $password ) {
+		return false;
+	}
+
+	public function canCreateAccounts() {
+		return false;
+	}
 }
 
 /**

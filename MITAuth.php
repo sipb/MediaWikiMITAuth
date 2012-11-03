@@ -46,6 +46,8 @@ $wgExtensionMessagesFiles['MITAuth'] = "$mitauthBase/MITAuth.i18n.php";
 $wgHooks['GetPreferences'][] = 'MITAuthHooks::addPreferencesInfo';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'MITAuthHooks::registerSchemaUpdates';
 $wgHooks['UserLoginForm'][] = 'MITAuthHooks::changeLoginForm';
+$wgHooks['AuthPluginSetup'][] = 'MITAuthHooks::setupAuthPlugin';
+$wgHooks['AbortNewAccount'][] = 'MITAuthHooks::abortNewAccount';
 
 $wgSpecialPages['MITLogin'] = 'SpecialMITLogin';
 
