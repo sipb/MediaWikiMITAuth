@@ -53,6 +53,7 @@ class MITAuth {
 	const MARK_LENGTH = 16;
 	const MARK_EXPIRY = 60;
 	const MARK_EXPIRY_LONG = 600;
+	const GROUP_EXPIRY = 300;
 
 	/**
 	 * We use a pluggable backend, which currently only supports
@@ -177,6 +178,24 @@ class MITAuth {
 		$id = $memc->get( $key );
 		$memc->delete( $key );
 		return $id;
+	}
+
+	public static function getMoiraGroupMembers( $groupname ) {
+		$groupname = preg_replace( '/[^a-z_\\-]+/i', '', $groupname );
+		$memc = self::getRealCache();
+
+		$key = wfMemcKey( 'mitauth', 'moiragroup', $groupname );
+		$value = $memc->get( $key );
+		if( $value )
+			return $value;
+
+		$output = wfShellExec( "pts membership system:{$groupname}" );
+		$list = explode( "\n", trim($output) );
+		$list = array_map( 'trim', $list );
+		array_shift( $list );
+
+		$memc->set( $key, $list, self::GROUP_EXPIRY );
+		return $list;
 	}
 }
 

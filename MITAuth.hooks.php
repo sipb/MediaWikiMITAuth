@@ -69,6 +69,24 @@ class MITAuthHooks {
 		}
 		return true;
 	}
+
+	public static function handleAutopromoteCondition( $cond, $args, $user, &$result ) {
+		if( $cond == APCOND_IN_MOIRA_GROUP ) {
+			$credentials = MITAuth::getUserCredentials( $user );
+			if( $credentials && $credentials->isMIT() ) {
+				$members = MITAuth::getMoiraGroupMembers( $args[0] );
+				if( in_array( $credentials->username, $members ) ) {
+					$result = true;
+					return false;
+				}
+			}
+
+			$result = false;
+			return false;
+		}
+
+		return true;
+	}
 }
 
 /**

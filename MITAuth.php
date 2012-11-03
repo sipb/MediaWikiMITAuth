@@ -48,6 +48,7 @@ $wgHooks['LoadExtensionSchemaUpdates'][] = 'MITAuthHooks::registerSchemaUpdates'
 $wgHooks['UserLoginForm'][] = 'MITAuthHooks::changeLoginForm';
 $wgHooks['AuthPluginSetup'][] = 'MITAuthHooks::setupAuthPlugin';
 $wgHooks['AbortNewAccount'][] = 'MITAuthHooks::abortNewAccount';
+$wgHooks['AutopromoteCondition'][] = 'MITAuthHooks::handleAutopromoteCondition';
 
 $wgSpecialPages['MITLogin'] = 'SpecialMITLogin';
 
@@ -56,6 +57,8 @@ $wgResourceModules['ext.mitauth.userlogin'] = array(
 	'remoteExtPath' => 'MITAuth/ui',
 	'styles' => 'userlogin.css',
 );
+
+define( 'APCOND_IN_MOIRA_GROUP', 'inmoiragroup' );
 
 //==============================================================================
 
