@@ -69,7 +69,7 @@ class MITAuth {
 
 	// Methods
 	public static function getAuthenticationData() { return self::getBackend()->getAuthenticationData(); }
-	public static function redirectToAuthenticator( $type ) { return self::getBackend()->redirectToAuthenticator( $type ); }
+	public static function redirectToAuthenticator( $type, $query = '' ) { return self::getBackend()->redirectToAuthenticator( $type, $query ); }
 
 	/**
 	 * Gets the cache which actually works, avoiding dummy clients
@@ -189,7 +189,7 @@ interface MITAuthBackend {
 	 * whatever). That URL should redirect him back to Special:MITLogin/auth and it
 	 * should pass the $type parameter via the query as type=$type.
 	 */
-	function redirectToAuthenticator( $type );
+	function redirectToAuthenticator( $type, $query );
 
 	/**
 	 * After the user is redirected back to Special:MITLogin/auth, this method

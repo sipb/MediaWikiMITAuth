@@ -57,10 +57,16 @@ class MITAuthHooks {
  */
 class MITOnlyTemplate extends QuickTemplate {
 	function execute() {
-		global $wgOut;
+		global $wgOut, $wgRequest;
 
 		$title = SpecialPage::getTitleFor( 'MITLogin' );
-		$wgOut->redirect( $title->getLocalURL() );
+		$query = array();
+		if( $returnto = $wgRequest->getVal( 'returnto' ) )
+			$query['returnto'] = $returnto;
+		if( $returntoquery = $wgRequest->getVal( 'returntoquery' ) )
+			$query['returntoquery'] = $returntoquery;
+
+		$wgOut->redirect( $title->getLocalURL( $query) );
 	}
 }
 
@@ -70,12 +76,15 @@ class MITOnlyTemplate extends QuickTemplate {
 class CombinedTemplate extends UserloginTemplate {
 
 	function execute() {
-		global $wgOut;
+		global $wgOut, $wgRequest;
 
 		$wgOut->addModuleStyles( 'ext.mitauth.userlogin' );
 
 		$header = wfMsgHtml( 'mitauth-userlogin-header' );
-		$loginUrl = SpecialPage::getTitleFor( 'MITLogin' )->getLocalURL();
+		$loginUrl = SpecialPage::getTitleFor( 'MITLogin' )->getLocalURL( array(
+			'returnto' => $wgRequest->getVal( 'returnto' ),
+			'returntoquery' => $wgRequest->getVal( 'returntoquery' ),
+		) );
 
 		// We wrap both forms in a table in order
 		// to make them have the same width

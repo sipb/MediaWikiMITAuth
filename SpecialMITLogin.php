@@ -19,8 +19,14 @@ class SpecialMITLogin extends SpecialPage {
 		$this->setHeaders();
 		$wgOut->disallowUserJs();
 
+		$queryParams = array();
+		if( $returnto = $wgRequest->getVal( 'returnto' ) )
+			$queryParams['returnto'] = $returnto;
+		if( $returntoquery = $wgRequest->getVal( 'returntoquery' ) )
+			$queryParams['returntoquery'] = $returntoquery;
+
 		if( !$par ) {
-			MITAuth::redirectToAuthenticator( 'login' );
+			MITAuth::redirectToAuthenticator( 'login', $queryParams );
 			session_start();
 			return;
 		}
@@ -28,14 +34,13 @@ class SpecialMITLogin extends SpecialPage {
 		$bits = explode( '/', $par );
 
 		switch( $bits[0] ) {
-
 			case 'auth':
 				$data = MITAuth::getAuthenticationData();
 				if( $data ) {
 					$type = $wgRequest->getVal( 'type' );
 					$credentialsString = $data->credentials->serialize();
 					$mark = MITAuth::generateAuthenticationMark( $data );
-					$url = MITAuth::getNormalURL( SpecialPage::getTitleFor( 'MITLogin', "{$type}/{$credentialsString}/{$mark}" ) );
+					$url = MITAuth::getNormalURL( SpecialPage::getTitleFor( 'MITLogin', "{$type}/{$credentialsString}/{$mark}" ), $queryParams );
 					$wgOut->redirect( $url );
 					return;
 				} else {
@@ -87,6 +92,13 @@ class SpecialMITLogin extends SpecialPage {
 						$user->setOption( 'rememberpassword', 0 );
 						$user->saveSettings();
 						$user->setCookies();
+						if( $targetTitle = Title::newFromText( $returnto ) ) {
+							if( $targetTitle && !$targetTitle->isSpecial( 'Userlogout' ) ) {
+								$wgOut->redirect( $targetTitle->getLocalURL( $returntoquery ) );
+								return;
+							}
+						}
+
 						$wgOut->redirect( SpecialPage::getTitleFor( 'MITLogin', 'success' )->getLocalURL() );
 					} else {
 						$this->showSignupForm( $data, false, true );

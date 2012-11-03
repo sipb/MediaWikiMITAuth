@@ -43,10 +43,17 @@ class MITAuthCertificates implements MITAuthBackend {
 	/**
 	 * Redirects the user to the port/server with certificate request enabled.
 	 */
-	function redirectToAuthenticator( $type ) {
+	function redirectToAuthenticator( $type, $query ) {
 		global $wgOut;
 
-		$url = $this->getCertificateURL( SpecialPage::getTitleFor( 'MITLogin', 'auth' ), array( 'type' => $type ) );
+		if( is_array( $query ) ) {
+			$query['type'] = $type;
+		} elseif( is_string( $query ) && $query ) {
+			$query .= "&type={$type}";
+		} else {
+			$query = "&type={$type}";
+		}
+		$url = $this->getCertificateURL( SpecialPage::getTitleFor( 'MITLogin', 'auth' ), $query );
 		$wgOut->redirect( $url );
 	}
 
