@@ -181,7 +181,7 @@ class MITAuth {
 	}
 
 	public static function getMoiraGroupMembers( $groupname ) {
-		$groupname = preg_replace( '/[^a-z_\\-]+/i', '', $groupname );
+		$groupname = preg_replace( '/[^a-z0-9_\\-]+/i', '', $groupname );
 		$memc = self::getRealCache();
 
 		$key = wfMemcKey( 'mitauth', 'moiragroup', $groupname );
