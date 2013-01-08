@@ -181,7 +181,6 @@ class MITAuth {
 	}
 
 	public static function getMoiraGroupMembers( $groupname ) {
-		$groupname = preg_replace( '/[^a-z0-9_\\-]+/i', '', $groupname );
 		$memc = self::getRealCache();
 
 		$key = wfMemcKey( 'mitauth', 'moiragroup', $groupname );
@@ -189,10 +188,11 @@ class MITAuth {
 		if( $value )
 			return $value;
 
-		$output = wfShellExec( "pts membership system:{$groupname}" );
+		$grouparg = wfEscapeShellArg( "system:{$groupname}" );
+		$output = wfShellExec( "pts membership -noauth $grouparg" );
 		$list = explode( "\n", trim($output) );
 		$list = array_map( 'trim', $list );
-		array_shift( $list );
+		array_shift( $list );	// Remove the "Members of" line from pts output
 
 		$memc->set( $key, $list, self::GROUP_EXPIRY );
 		return $list;
