@@ -143,7 +143,7 @@ class MITAuth {
 	 * port.
 	 */
 	public static function getNormalURL( $title, $query = '' ) {
-		global $wgMITCertificateServer;
+		global $wgMITNormalServer;
 
 		$base = $title->getLocalURL( $query );
 		if( $wgMITNormalServer ) {
