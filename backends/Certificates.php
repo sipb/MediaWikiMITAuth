@@ -5,20 +5,6 @@
  */
 class MITAuthCertificates implements MITAuthBackend {
 	/**
-	 * Parses a certificate string into a dictionary.
-	 */
-	private static function parseCertificate( $cert ) {
-		$bits = explode( '/', $cert );
-		$result = array();
-		foreach( $bits as $bit ) {
-			if( preg_match( '/^\s*(.*?)\s*=\s*(.*)\s*$/s', $bit, $match ) ) {
-				$result[ $match[1] ] = $match[2];
-			}
-		}
-		return $result;
-	}
-
-	/**
 	 * Returns the authentication data stored in the client-supplied certificate.
 	 */
 	function getAuthenticationData() {
@@ -27,15 +13,14 @@ class MITAuthCertificates implements MITAuthBackend {
 		if( $_SERVER['SSL_CLIENT_VERIFY'] != 'SUCCESS' )
 			return null;
 
-		$cert = self::parseCertificate( $_SERVER['SSL_CLIENT_S_DN'] );
-		if( $cert['O'] != $wgMITCertificateOrganization )
+		if( $_SERVER['SSL_CLIENT_S_DN_O'] != $wgMITCertificateOrganization )
 			return null;
 
-		$username = preg_replace( '/@.*/', '', $cert['emailAddress'] );
+		$username = preg_replace( '/@.*/', '', $_SERVER['SSL_CLIENT_S_DN_Email'] );
 		return (object)array(
 			'username' => $username,
-			'email' => $cert['emailAddress'],
-			'realname' => $cert['CN'],
+			'email' => $_SERVER['SSL_CLIENT_S_DN_Email'],
+			'realname' => $_SERVER['SSL_CLIENT_S_DN_CN'],
 			'credentials' => new MITAuthCredentials( $username ),
 		);
 	}
